@@ -1,0 +1,1660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Two Pianos, One Night! 🎹 Hamelin & Hamelin</title>
+<style>
+  :root {
+    --mozart: #1a78c2;
+    --mozart-light: #e8f4fd;
+    --chopin: #c2185b;
+    --chopin-light: #fce4ec;
+    --chaminade: #2e7d32;
+    --chaminade-light: #e8f5e9;
+    --medtner: #e65100;
+    --medtner-light: #fff3e0;
+    --gershwin: #6a1b9a;
+    --gershwin-light: #f3e5f5;
+    --gold: #f5a623;
+    --gold-dark: #e09000;
+    --bg: #fffdf5;
+    --card-bg: #ffffff;
+    --text: #1a1a2e;
+    --text-soft: #555577;
+    --shadow: 0 4px 20px rgba(0,0,0,0.1);
+    --shadow-hover: 0 12px 40px rgba(0,0,0,0.18);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Georgia', serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(135deg, #ff6b6b 0%, #feca57 18%, #48dbfb 36%, #ff9ff3 54%, #54a0ff 72%, #5f27cd 90%);
+    background-size: 400% 400%;
+    animation: gradientShift 12s ease infinite;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .hero-glass {
+    background: rgba(255,255,255,0.22);
+    backdrop-filter: blur(16px);
+    border: 2px solid rgba(255,255,255,0.5);
+    border-radius: 32px;
+    padding: 3rem 3.5rem;
+    max-width: 740px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    animation: popIn 0.8s cubic-bezier(0.34,1.56,0.64,1);
+  }
+
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.85) translateY(40px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .piano-keys {
+    display: flex;
+    justify-content: center;
+    gap: 3px;
+    margin-bottom: 1.5rem;
+  }
+
+  .key {
+    width: 20px;
+    height: 75px;
+    background: white;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.25);
+    animation: keyPress 2.4s ease-in-out infinite;
+  }
+  .key.black {
+    background: #222;
+    height: 48px;
+    width: 13px;
+    margin: 0 -7px;
+    z-index: 1;
+    border-radius: 0 0 4px 4px;
+  }
+  .key:nth-child(2) { animation-delay: 0.0s; }
+  .key:nth-child(4) { animation-delay: 0.15s; }
+  .key:nth-child(6) { animation-delay: 0.3s; }
+  .key:nth-child(8) { animation-delay: 0.45s; }
+  .key:nth-child(10){ animation-delay: 0.6s; }
+  @keyframes keyPress {
+    0%,80%,100% { transform:translateY(0); }
+    40% { transform:translateY(5px); }
+  }
+
+  .hero h1 {
+    font-size: clamp(2rem, 6vw, 3.8rem);
+    color: #fff;
+    text-shadow: 0 3px 15px rgba(0,0,0,0.3);
+    margin-bottom: 0.6rem;
+    line-height: 1.15;
+  }
+
+  .hero .subtitle {
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    color: rgba(255,255,255,0.95);
+    margin-bottom: 1.2rem;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.2);
+  }
+
+  .hero .date-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.9);
+    color: #5f27cd;
+    font-weight: bold;
+    padding: 0.55rem 1.6rem;
+    border-radius: 30px;
+    font-size: 1rem;
+    margin-bottom: 1.2rem;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+  }
+
+  .hero p {
+    color: rgba(255,255,255,0.92);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.15);
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: rgba(255,255,255,0.85);
+    cursor: pointer;
+    animation: bounce 2s infinite;
+    font-size: 0.85rem;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  }
+
+  @keyframes bounce {
+    0%,100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(10px); }
+  }
+
+  /* ── NAV ── */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255,253,245,0.96);
+    backdrop-filter: blur(10px);
+    padding: 0.7rem 1rem;
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+    border-bottom: 3px solid transparent;
+    border-image: linear-gradient(90deg,#ff6b6b,#feca57,#48dbfb,#ff9ff3,#54a0ff,#5f27cd) 1;
+  }
+
+  .nav button {
+    background: transparent;
+    border: 1.5px solid rgba(90,70,150,0.2);
+    color: var(--text-soft);
+    padding: 0.38rem 0.9rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    transition: all 0.2s;
+    font-family: Georgia, serif;
+  }
+
+  .nav button:hover, .nav button.active {
+    background: linear-gradient(135deg, #5f27cd, #2c44d4);
+    color: white;
+    border-color: #5f27cd;
+    box-shadow: 0 4px 10px rgba(95,39,205,0.3);
+  }
+
+  /* ── SECTION WRAPPER ── */
+  .section-wrap {
+    padding: 5rem 1.5rem;
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+
+  .alt-bg { background: linear-gradient(180deg, #f0f4ff 0%, #fff9f0 100%); }
+
+  .section-title {
+    text-align: center;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, #5f27cd, #c2185b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .section-sub {
+    text-align: center;
+    color: var(--text-soft);
+    margin-bottom: 3rem;
+    font-size: 1rem;
+  }
+
+  /* ── PERFORMER CARDS ── */
+  .performers {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .performer-card {
+    background: var(--card-bg);
+    border-radius: 24px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .performer-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #5f27cd, #2c44d4);
+  }
+
+  .performer-card:nth-child(2)::before {
+    background: linear-gradient(90deg, #c2185b, #e91e63);
+  }
+
+  .performer-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-hover);
+  }
+
+  .performer-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center top;
+    border: 4px solid #5f27cd;
+    margin: 0 auto 1.2rem;
+    display: block;
+    box-shadow: 0 8px 24px rgba(95,39,205,0.25);
+  }
+
+  .performer-card:nth-child(2) .performer-photo {
+    border-color: #c2185b;
+    box-shadow: 0 8px 24px rgba(194,24,91,0.25);
+  }
+
+  .performer-fallback {
+    display: none;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: linear-gradient(135deg,#5f27cd,#2c44d4);
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    margin: 0 auto 1.2rem;
+    border: 4px solid #5f27cd;
+  }
+
+  .performer-card:nth-child(2) .performer-fallback {
+    background: linear-gradient(135deg,#c2185b,#e91e63);
+    border-color: #c2185b;
+  }
+
+  .performer-card h3 { font-size: 1.35rem; color: var(--text); margin-bottom: 0.3rem; }
+  .performer-card .role { font-size: 0.8rem; color: #5f27cd; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 1rem; font-weight: bold; }
+  .performer-card:nth-child(2) .role { color: #c2185b; }
+  .performer-card p { font-size: 0.9rem; line-height: 1.7; color: var(--text-soft); }
+
+  .medal {
+    display: inline-block;
+    background: linear-gradient(135deg, #C0C0C0, #e8e8e8);
+    color: #444;
+    padding: 0.25rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    margin-top: 0.8rem;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  .fun-fact-box {
+    background: linear-gradient(135deg, #fff3cd, #ffe8a0);
+    border: 2px solid #f5a623;
+    border-radius: 16px;
+    padding: 1.4rem 1.8rem;
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--text);
+  }
+
+  /* ── PROGRAMME ── */
+  .programme-list { display: flex; flex-direction: column; gap: 0.85rem; }
+
+  .piece-item {
+    background: var(--card-bg);
+    border-radius: 14px;
+    padding: 1.1rem 1.5rem;
+    cursor: pointer;
+    transition: all 0.25s;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: var(--shadow);
+    border-left: 6px solid #ddd;
+  }
+
+  .piece-item:hover { transform: translateX(6px); box-shadow: var(--shadow-hover); }
+  .piece-item.mozart { border-color: var(--mozart); }
+  .piece-item.chopin { border-color: var(--chopin); }
+  .piece-item.chaminade { border-color: var(--chaminade); }
+  .piece-item.medtner { border-color: var(--medtner); }
+  .piece-item.gershwin { border-color: var(--gershwin); }
+
+  .piece-num { font-size: 1.6rem; min-width: 40px; }
+  .piece-info h4 { font-size: 1rem; margin-bottom: 0.2rem; }
+  .piece-info .composer-tag { font-size: 0.78rem; color: var(--text-soft); text-transform: uppercase; letter-spacing: 1px; }
+  .piece-arrow { margin-left: auto; font-size: 1.2rem; opacity: 0.35; transition: all 0.2s; }
+  .piece-item:hover .piece-arrow { opacity: 1; transform: translateX(4px); }
+
+  .piece-item.mozart .piece-info h4 { color: var(--mozart); }
+  .piece-item.chopin .piece-info h4 { color: var(--chopin); }
+  .piece-item.chaminade .piece-info h4 { color: var(--chaminade); }
+  .piece-item.medtner .piece-info h4 { color: var(--medtner); }
+  .piece-item.gershwin .piece-info h4 { color: var(--gershwin); }
+
+  /* ── COMPOSER FLIP CARDS ── */
+  .composer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .composer-card {
+    border-radius: 20px;
+    perspective: 1200px;
+    height: 360px;
+    cursor: pointer;
+  }
+
+  .card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.65s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .composer-card.flipped .card-inner { transform: rotateY(180deg); }
+
+  .card-front, .card-back {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    border-radius: 20px;
+    overflow: hidden;
+  }
+
+  .card-front {
+    background: #222;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    text-align: center;
+  }
+
+  .composer-card:hover .card-front { box-shadow: var(--shadow-hover); }
+
+  .card-photo-area {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .card-photo-area img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    filter: brightness(0.7) saturate(1.15);
+    transition: transform 0.4s;
+  }
+
+  .composer-card:hover .card-photo-area img { transform: scale(1.06); }
+
+  .card-photo-fallback {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 6rem;
+  }
+
+  .card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.2) 55%, transparent 100%);
+  }
+
+  .card-front-content {
+    position: relative;
+    z-index: 2;
+    padding: 1.2rem;
+    width: 100%;
+    text-align: center;
+  }
+
+  .card-front h3 { font-size: 1.2rem; color: #fff; margin-bottom: 0.2rem; }
+  .composer-dates { font-size: 0.75rem; color: rgba(255,255,255,0.7); margin-bottom: 0.4rem; }
+  .composer-tagline { font-size: 0.82rem; color: rgba(255,255,255,0.88); line-height: 1.4; }
+  .flip-hint { font-size: 0.7rem; color: rgba(255,255,255,0.5); margin-top: 0.5rem; }
+
+  .card-back {
+    transform: rotateY(180deg);
+    padding: 1.5rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .card-back.mozart { background: linear-gradient(135deg, #e8f4fd, #bbdefb); }
+  .card-back.chopin { background: linear-gradient(135deg, #fce4ec, #f8bbd0); }
+  .card-back.chaminade { background: linear-gradient(135deg, #e8f5e9, #c8e6c9); }
+  .card-back.medtner { background: linear-gradient(135deg, #fff3e0, #ffe0b2); }
+  .card-back.gershwin { background: linear-gradient(135deg, #f3e5f5, #e1bee7); }
+
+  .card-back h4 { font-size: 1rem; margin-bottom: 0.75rem; }
+  .card-back.mozart h4 { color: var(--mozart); }
+  .card-back.chopin h4 { color: var(--chopin); }
+  .card-back.chaminade h4 { color: var(--chaminade); }
+  .card-back.medtner h4 { color: var(--medtner); }
+  .card-back.gershwin h4 { color: var(--gershwin); }
+
+  .card-back ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+  .card-back li { font-size: 0.84rem; line-height: 1.5; color: #333; padding-left: 1.2rem; position: relative; }
+  .card-back li::before { content: '★'; position: absolute; left: 0; font-size: 0.6rem; top: 0.3rem; }
+  .card-back.mozart li::before { color: var(--mozart); }
+  .card-back.chopin li::before { color: var(--chopin); }
+  .card-back.chaminade li::before { color: var(--chaminade); }
+  .card-back.medtner li::before { color: var(--medtner); }
+  .card-back.gershwin li::before { color: var(--gershwin); }
+
+  /* ── DEEP DIVES ── */
+  .deep-inner { max-width: 1120px; margin: 0 auto; padding: 5rem 1.5rem; }
+
+  .deep-dive-tabs {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+
+  .tab-btn {
+    padding: 0.5rem 1.3rem;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 0.88rem;
+    font-family: Georgia, serif;
+    border: 2px solid #ddd;
+    background: white;
+    color: #666;
+    transition: all 0.2s;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+  }
+
+  .tab-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(0,0,0,0.1); }
+  .tab-btn.active { color: white; border-color: transparent; }
+  .tab-btn.mozart.active { background: var(--mozart); }
+  .tab-btn.chopin.active { background: var(--chopin); }
+  .tab-btn.chaminade.active { background: var(--chaminade); }
+  .tab-btn.medtner.active { background: var(--medtner); }
+  .tab-btn.gershwin.active { background: var(--gershwin); }
+
+  .deep-content { display: none; animation: fadeSlide 0.4s ease-out; }
+  .deep-content.active { display: block; }
+
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .deep-panel {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: var(--shadow);
+  }
+
+  .deep-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .deep-emoji { font-size: 2.8rem; }
+  .deep-header h3 { font-size: 1.4rem; }
+  .deep-panel.mozart .deep-header h3 { color: var(--mozart); }
+  .deep-panel.chopin .deep-header h3 { color: var(--chopin); }
+  .deep-panel.chaminade .deep-header h3 { color: var(--chaminade); }
+  .deep-panel.medtner .deep-header h3 { color: var(--medtner); }
+  .deep-panel.gershwin .deep-header h3 { color: var(--gershwin); }
+  .deep-header .sub { font-size: 0.82rem; color: var(--text-soft); }
+
+  .deep-body {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1.2rem;
+  }
+
+  .info-block { border-radius: 14px; padding: 1.2rem; border: 2px solid #f0f0f0; }
+  .info-block h5 { font-size: 0.82rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.7rem; }
+  .info-block p, .info-block li { font-size: 0.88rem; line-height: 1.7; color: var(--text-soft); }
+  .info-block ul { list-style: none; display: flex; flex-direction: column; gap: 0.3rem; }
+  .info-block li::before { content: '→ '; }
+
+  .deep-panel.mozart .info-block { background: var(--mozart-light); border-color: #bbdefb; }
+  .deep-panel.mozart .info-block h5 { color: var(--mozart); }
+  .deep-panel.chopin .info-block { background: var(--chopin-light); border-color: #f8bbd0; }
+  .deep-panel.chopin .info-block h5 { color: var(--chopin); }
+  .deep-panel.chaminade .info-block { background: var(--chaminade-light); border-color: #c8e6c9; }
+  .deep-panel.chaminade .info-block h5 { color: var(--chaminade); }
+  .deep-panel.medtner .info-block { background: var(--medtner-light); border-color: #ffe0b2; }
+  .deep-panel.medtner .info-block h5 { color: var(--medtner); }
+  .deep-panel.gershwin .info-block { background: var(--gershwin-light); border-color: #e1bee7; }
+  .deep-panel.gershwin .info-block h5 { color: var(--gershwin); }
+
+  .fact-highlight {
+    margin-top: 1.2rem;
+    border-radius: 12px;
+    padding: 1rem 1.2rem;
+    font-size: 0.9rem;
+    line-height: 1.65;
+  }
+  .deep-panel.mozart .fact-highlight { background: #bbdefb; color: #0d47a1; }
+  .deep-panel.chopin .fact-highlight { background: #f8bbd0; color: #880e4f; }
+  .deep-panel.chaminade .fact-highlight { background: #c8e6c9; color: #1b5e20; }
+  .deep-panel.medtner .fact-highlight { background: #ffe0b2; color: #bf360c; }
+  .deep-panel.gershwin .fact-highlight { background: #e1bee7; color: #4a148c; }
+  .fact-highlight .label { font-weight: bold; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 0.3rem; }
+
+  /* ── AGE TOGGLE ── */
+  .age-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .toggle-label { font-size: 0.9rem; color: var(--text-soft); }
+
+  .toggle-switch {
+    position: relative;
+    width: 64px;
+    height: 32px;
+    cursor: pointer;
+  }
+  .toggle-switch input { opacity: 0; width: 0; height: 0; }
+  .toggle-track {
+    position: absolute;
+    inset: 0;
+    background: #ddd;
+    border-radius: 16px;
+    transition: background 0.3s;
+  }
+  .toggle-thumb {
+    position: absolute;
+    top: 4px; left: 4px;
+    width: 24px; height: 24px;
+    background: var(--gold);
+    border-radius: 50%;
+    transition: transform 0.3s;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  }
+  .toggle-switch input:checked + .toggle-track { background: #c3cfe2; }
+  .toggle-switch input:checked ~ .toggle-thumb { transform: translateX(32px); }
+
+  .age-8 { display: block; }
+  .age-13 { display: none; }
+  body.teen-mode .age-8 { display: none; }
+  body.teen-mode .age-13 { display: block; }
+
+  /* ── CAROUSEL ── */
+  .carousel {
+    background: white;
+    border-radius: 20px;
+    padding: 2.5rem;
+    box-shadow: var(--shadow);
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-top: 6px solid var(--gold);
+  }
+
+  .fact-category {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--gold-dark);
+    font-weight: bold;
+    margin-bottom: 0.8rem;
+  }
+
+  .fact-text {
+    font-size: 1.1rem;
+    line-height: 1.75;
+    color: var(--text);
+    max-width: 680px;
+    transition: opacity 0.25s;
+  }
+
+  .carousel-controls { display: flex; align-items: center; gap: 1rem; margin-top: 1.5rem; }
+
+  .carousel-btn {
+    background: #f0f0f0;
+    border: none;
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .carousel-btn:hover { background: var(--gold); color: white; }
+
+  .carousel-dots { display: flex; gap: 6px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: #ddd; cursor: pointer; transition: background 0.2s; }
+  .dot.active { background: var(--gold); }
+
+  /* ── TIMELINE ── */
+  .timeline { position: relative; padding-left: 2.5rem; max-width: 750px; margin: 0 auto; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 1rem;
+    top: 0; bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, #5f27cd, #ff9ff3, #feca57);
+    border-radius: 2px;
+  }
+
+  .tl-item { position: relative; padding: 0 0 2rem 2rem; }
+
+  .tl-dot {
+    position: absolute;
+    left: -0.5rem;
+    top: 0.2rem;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    border: 3px solid white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+
+  .tl-item.mozart .tl-dot { background: var(--mozart); }
+  .tl-item.chopin .tl-dot { background: var(--chopin); }
+  .tl-item.chaminade .tl-dot { background: var(--chaminade); }
+  .tl-item.medtner .tl-dot { background: var(--medtner); }
+  .tl-item.gershwin .tl-dot { background: var(--gershwin); }
+  .tl-item.tonight .tl-dot { background: var(--gold); width: 20px; height: 20px; left: -0.65rem; }
+
+  .tl-year { font-size: 0.78rem; color: var(--text-soft); letter-spacing: 1px; margin-bottom: 0.2rem; font-weight: bold; text-transform: uppercase; }
+  .tl-item.tonight .tl-year { color: var(--gold-dark); font-size: 1rem; }
+  .tl-item h4 { font-size: 0.98rem; color: var(--text); margin-bottom: 0.3rem; }
+  .tl-item.tonight h4 { color: #5f27cd; font-size: 1.1rem; }
+  .tl-item p { font-size: 0.85rem; color: var(--text-soft); line-height: 1.6; }
+
+  /* ── LISTEN ── */
+  .listen-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .listen-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.3rem;
+    box-shadow: var(--shadow);
+    transition: transform 0.25s, box-shadow 0.25s;
+    border-bottom: 4px solid #eee;
+  }
+
+  .listen-card.mozart { border-color: var(--mozart); }
+  .listen-card.chopin { border-color: var(--chopin); }
+  .listen-card.chaminade { border-color: var(--chaminade); }
+  .listen-card.medtner { border-color: var(--medtner); }
+  .listen-card.gershwin { border-color: var(--gershwin); }
+
+  .listen-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+  .listen-card h4 { font-size: 0.98rem; color: var(--text); margin-bottom: 0.25rem; }
+  .listen-card .composer-sm { font-size: 0.78rem; color: var(--text-soft); margin-bottom: 0.75rem; }
+  .listen-card p { font-size: 0.85rem; line-height: 1.65; color: var(--text-soft); margin-bottom: 1rem; }
+
+  .yt-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: #ff0000;
+    color: white;
+    padding: 0.4rem 1.1rem;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: bold;
+    transition: all 0.2s;
+    box-shadow: 0 3px 8px rgba(255,0,0,0.3);
+  }
+
+  .yt-link:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(255,0,0,0.4); }
+
+  /* ── QUIZ ── */
+  .quiz-container { max-width: 720px; margin: 0 auto; }
+
+  .quiz-progress {
+    height: 10px;
+    background: #eee;
+    border-radius: 5px;
+    margin-bottom: 2rem;
+    overflow: hidden;
+  }
+
+  .quiz-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #5f27cd, #ff9ff3);
+    border-radius: 5px;
+    transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .question-card {
+    background: white;
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    box-shadow: var(--shadow);
+    text-align: center;
+  }
+
+  .question-num { font-size: 0.78rem; color: var(--text-soft); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px; }
+  .question-text { font-size: 1.2rem; line-height: 1.6; margin-bottom: 2rem; color: var(--text); }
+
+  .answers {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  .answer-btn {
+    background: #f8f7ff;
+    border: 2px solid #e0d8ff;
+    color: #444;
+    padding: 0.9rem 1rem;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    transition: all 0.2s;
+    font-family: Georgia, serif;
+  }
+
+  .answer-btn:hover:not(:disabled) {
+    background: #ece8ff;
+    border-color: #5f27cd;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(95,39,205,0.15);
+  }
+
+  .answer-btn.correct { background: #e8f5e9; border-color: #4caf50; color: #1b5e20; }
+  .answer-btn.wrong { background: #fce4ec; border-color: #e91e63; color: #880e4f; }
+  .answer-btn:disabled { cursor: default; }
+
+  .quiz-feedback { margin-top: 1rem; padding: 0.75rem 1rem; border-radius: 10px; font-size: 0.9rem; min-height: 2.5rem; line-height: 1.5; }
+  .quiz-feedback.correct-msg { background: #e8f5e9; color: #2e7d32; }
+  .quiz-feedback.wrong-msg { background: #fce4ec; color: #c2185b; }
+
+  .next-btn {
+    background: linear-gradient(135deg, #5f27cd, #2c44d4);
+    color: white;
+    border: none;
+    padding: 0.8rem 2.2rem;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-top: 1rem;
+    transition: all 0.25s;
+    font-family: Georgia, serif;
+    box-shadow: 0 6px 18px rgba(95,39,205,0.35);
+  }
+  .next-btn:hover { transform: scale(1.05); box-shadow: 0 10px 24px rgba(95,39,205,0.45); }
+
+  .score-display { text-align: center; padding: 2.5rem 1.5rem; }
+  .score-emoji { font-size: 5rem; margin-bottom: 1rem; display: block; }
+  .score-number { font-size: 3.5rem; font-weight: bold; background: linear-gradient(135deg,#5f27cd,#c2185b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .score-msg { font-size: 1rem; line-height: 1.7; color: var(--text-soft); margin: 1rem 0 1.5rem; }
+  .restart-btn { background: transparent; border: 2px solid #5f27cd; color: #5f27cd; padding: 0.7rem 2rem; border-radius: 25px; cursor: pointer; font-size: 1rem; transition: all 0.2s; font-family: Georgia, serif; }
+  .restart-btn:hover { background: #5f27cd; color: white; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: linear-gradient(135deg, #1a1a2e, #3a1878);
+    color: rgba(255,255,255,0.75);
+    text-align: center;
+    padding: 3rem 1.5rem;
+    font-size: 0.88rem;
+    line-height: 1.9;
+  }
+  footer .big { font-size: 1.4rem; color: white; margin-bottom: 0.5rem; }
+
+  @media (max-width: 500px) {
+    .answers { grid-template-columns: 1fr; }
+    .hero-glass { padding: 2rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<div class="hero">
+  <div class="hero-glass">
+    <div class="piano-keys">
+      <div class="key"></div><div class="key black"></div>
+      <div class="key"></div><div class="key black"></div>
+      <div class="key"></div>
+      <div class="key"></div><div class="key black"></div>
+      <div class="key"></div><div class="key black"></div>
+      <div class="key"></div><div class="key black"></div>
+      <div class="key"></div>
+    </div>
+    <h1>🎹 Two Pianos,<br>One Incredible Night!</h1>
+    <p class="subtitle">Marc-André Hamelin &amp; Charles Richard-Hamelin<br>at Koerner Hall · The Royal Conservatory, Toronto</p>
+    <div class="date-badge">🗓️ Tonight — Sunday, March 29, 2026 · 3:00 PM</div>
+    <p>Two brilliant pianists who share a last name but aren't related are about to fill a concert hall with music from four different centuries. Explore everything below before the curtain rises!</p>
+  </div>
+  <div class="scroll-hint" onclick="document.getElementById('performers').scrollIntoView({behavior:'smooth'})">
+    Scroll to explore ▼
+  </div>
+</div>
+
+<!-- ═══ NAV ═══ -->
+<nav class="nav">
+  <button onclick="scrollTo('performers')">🎹 Performers</button>
+  <button onclick="scrollTo('programme')">🎵 Programme</button>
+  <button onclick="scrollTo('composers')">👤 Composers</button>
+  <button onclick="scrollTo('deep-dives')">🔍 Deep Dives</button>
+  <button onclick="scrollTo('facts')">💡 Fun Facts</button>
+  <button onclick="scrollTo('timeline')">📅 Timeline</button>
+  <button onclick="scrollTo('listen')">🎧 Listen</button>
+  <button onclick="scrollTo('quiz')">🧠 Quiz</button>
+</nav>
+
+<!-- ═══ PERFORMERS ═══ -->
+<div id="performers">
+<div class="section-wrap">
+  <h2 class="section-title">🎹 Tonight's Performers</h2>
+  <p class="section-sub">Two world-class pianists sharing one stage — and the same last name!</p>
+  <div class="performers">
+
+    <div class="performer-card">
+      <img class="performer-photo"
+           src="https://commons.wikimedia.org/wiki/Special:FilePath/Marc-Andr%C3%A9_Hamelin_in_Chicago.jpg"
+           alt="Marc-André Hamelin"
+           onerror="this.style.display='none';document.getElementById('fb-mah').style.display='flex'">
+      <div id="fb-mah" class="performer-fallback">🧙‍♂️</div>
+      <h3>Marc-André Hamelin</h3>
+      <div class="role">🎹 Piano · The Legend</div>
+      <p>Born in Montréal in 1961, Marc-André Hamelin is considered one of the greatest living pianists. The <em>New York Times</em> called him a pianist of <strong>"near-superhuman technical prowess."</strong> He plays music so fast and so perfectly that people sometimes wonder if he's actually human! He's also a composer — his own pieces are famously some of the most difficult ever written.</p>
+      <div style="font-size:0.7rem;color:#bbb;margin-top:0.5rem;">Photo: Wikimedia Commons</div>
+    </div>
+
+    <div class="performer-card">
+      <img class="performer-photo"
+           src="https://commons.wikimedia.org/wiki/Special:FilePath/Charles_Richard-Hamelin.jpg"
+           alt="Charles Richard-Hamelin"
+           onerror="this.style.display='none';document.getElementById('fb-crh').style.display='flex'">
+      <div id="fb-crh" class="performer-fallback">🏆</div>
+      <h3>Charles Richard-Hamelin</h3>
+      <div class="role">🎹 Piano · The Champion</div>
+      <p>Born in Québec in 1989, Charles Richard-Hamelin is one of the most celebrated pianists of his generation. In 2015, he competed at the <strong>International Chopin Piano Competition</strong> in Warsaw, Poland — the world's most prestigious piano competition — and won the Silver Medal. Despite sharing a last name with Marc-André, the two are <em>not related!</em></p>
+      <div class="medal">🥈 Chopin Competition Silver Medalist, 2015</div>
+      <div style="font-size:0.7rem;color:#bbb;margin-top:0.5rem;">Photo: Wikimedia Commons</div>
+    </div>
+
+  </div>
+
+  <div class="fun-fact-box">
+    🤔 <strong>Did you notice?</strong> The concert is called "Hamelin and Hamelin" — but they're not family! Tonight they're sharing <strong>two grand pianos</strong> on stage. Think of it like a musical conversation between two incredible minds!
+  </div>
+</div>
+</div>
+
+<!-- ═══ PROGRAMME ═══ -->
+<div id="programme" class="alt-bg">
+<div class="section-wrap">
+  <h2 class="section-title">🎵 Tonight's Programme</h2>
+  <p class="section-sub">Five composers, spanning almost 250 years of music! Click any piece to explore its story.</p>
+  <div class="programme-list">
+    <div class="piece-item mozart" onclick="openDeepDive('mozart')">
+      <span class="piece-num">🎼</span>
+      <div class="piece-info">
+        <h4>Sonata for Two Pianos in D Major, K. 448</h4>
+        <div class="composer-tag">Wolfgang Amadeus Mozart · 1781</div>
+      </div>
+      <span class="piece-arrow">→</span>
+    </div>
+    <div class="piece-item mozart" onclick="openDeepDive('mozart')">
+      <span class="piece-num">🎼</span>
+      <div class="piece-info">
+        <h4>Concerto for Two Pianos in E-flat Major, K. 365</h4>
+        <div class="composer-tag">Wolfgang Amadeus Mozart · 1779</div>
+      </div>
+      <span class="piece-arrow">→</span>
+    </div>
+    <div class="piece-item chopin" onclick="openDeepDive('chopin')">
+      <span class="piece-num">🎼</span>
+      <div class="piece-info">
+        <h4>Rondo in C Major for Two Pianos, Op. 73</h4>
+        <div class="composer-tag">Frédéric Chopin · Published 1855 (after his death)</div>
+      </div>
+      <span class="piece-arrow">→</span>
+    </div>
+    <div class="piece-item chaminade" onclick="openDeepDive('chaminade')">
+      <span class="piece-num">🎼</span>
+      <div class="piece-info">
+        <h4>Pas des Cymbales, Op. 36, No. 2</h4>
+        <div class="composer-tag">Cécile Chaminade · 1889</div>
+      </div>
+      <span class="piece-arrow">→</span>
+    </div>
+    <div class="piece-item medtner" onclick="openDeepDive('medtner')">
+      <span class="piece-num">🎼</span>
+      <div class="piece-info">
+        <h4>Two Pieces for Two Pianos, Op. 58</h4>
+        <div class="composer-tag">Nikolai Medtner · 1940s</div>
+      </div>
+      <span class="piece-arrow">→</span>
+    </div>
+    <div class="piece-item gershwin" onclick="openDeepDive('gershwin')">
+      <span class="piece-num">🎼</span>
+      <div class="piece-info">
+        <h4>Fantasy on "Porgy and Bess" (arr. Percy Grainger)</h4>
+        <div class="composer-tag">George Gershwin, arr. Grainger · 1935 / arr. 1951</div>
+      </div>
+      <span class="piece-arrow">→</span>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══ COMPOSER FLIP CARDS ═══ -->
+<div id="composers">
+<div class="section-wrap">
+  <h2 class="section-title">👤 Meet the Composers</h2>
+  <p class="section-sub">Click / tap any card to flip it and discover amazing facts! 👆</p>
+  <div class="composer-grid">
+
+    <!-- MOZART -->
+    <div class="composer-card" onclick="this.classList.toggle('flipped')">
+      <div class="card-inner">
+        <div class="card-front">
+          <div class="card-photo-area">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Wolfgang-amadeus-mozart_1.jpg"
+                 alt="Portrait of Mozart"
+                 onerror="this.parentElement.innerHTML='<div class=card-photo-fallback style=background:linear-gradient(135deg,%23bbdefb,%23e3f2fd)>🎩</div>'">
+            <div class="card-overlay"></div>
+          </div>
+          <div class="card-front-content">
+            <h3>Wolfgang Amadeus Mozart</h3>
+            <div class="composer-dates">1756 – 1791 · Austria</div>
+            <div class="composer-tagline">The child prodigy who became one of history's greatest musical geniuses</div>
+            <div class="flip-hint">👆 Tap to see fun facts!</div>
+          </div>
+        </div>
+        <div class="card-back mozart">
+          <h4>🤯 Amazing Mozart Facts</h4>
+          <ul>
+            <li>Started composing at age 5 and performing for royalty at age 6!</li>
+            <li>Could hear a piece once and write it all down from memory</li>
+            <li>Had a pet starling that whistled part of his Piano Concerto No. 17</li>
+            <li>Wrote over 800 works in his short 35-year life</li>
+            <li>K.448 is linked to improved focus — called "the Mozart Effect"</li>
+            <li>Died mysteriously at just 35 — nobody knows exactly why</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHOPIN -->
+    <div class="composer-card" onclick="this.classList.toggle('flipped')">
+      <div class="card-inner">
+        <div class="card-front">
+          <div class="card-photo-area">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Eug%C3%A8ne_Delacroix_-_Fr%C3%A9d%C3%A9ric_Chopin_-_WGA06194.jpg"
+                 alt="Portrait of Chopin by Delacroix"
+                 onerror="this.parentElement.innerHTML='<div class=card-photo-fallback style=background:linear-gradient(135deg,%23f8bbd0,%23fce4ec)>🌹</div>'">
+            <div class="card-overlay"></div>
+          </div>
+          <div class="card-front-content">
+            <h3>Frédéric Chopin</h3>
+            <div class="composer-dates">1810 – 1849 · Poland / France</div>
+            <div class="composer-tagline">The poet of the piano — heartbreaking melodies from a deeply romantic soul</div>
+            <div class="flip-hint">👆 Tap to see fun facts!</div>
+          </div>
+        </div>
+        <div class="card-back chopin">
+          <h4>🎭 Chopin's Story</h4>
+          <ul>
+            <li>Born in Poland, spent his adult life in Paris</li>
+            <li>Was so shy he preferred tiny, intimate concerts over big halls</li>
+            <li>His Rondo tonight was published 6 years AFTER he died</li>
+            <li>Suffered from tuberculosis his whole life, dying at just 39</li>
+            <li>His heart was taken to Poland after death — buried in Warsaw</li>
+            <li>Charles Richard-Hamelin won Silver at the Chopin Competition!</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHAMINADE -->
+    <div class="composer-card" onclick="this.classList.toggle('flipped')">
+      <div class="card-inner">
+        <div class="card-front">
+          <div class="card-photo-area">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/ae/Cecile_chaminade.jpg"
+                 alt="Photo of Cécile Chaminade"
+                 onerror="this.parentElement.innerHTML='<div class=card-photo-fallback style=background:linear-gradient(135deg,%23c8e6c9,%23e8f5e9)>💫</div>'">
+            <div class="card-overlay"></div>
+          </div>
+          <div class="card-front-content">
+            <h3>Cécile Chaminade</h3>
+            <div class="composer-dates">1857 – 1944 · France</div>
+            <div class="composer-tagline">A pioneering French composer who broke barriers for women in classical music</div>
+            <div class="flip-hint">👆 Tap to see fun facts!</div>
+          </div>
+        </div>
+        <div class="card-back chaminade">
+          <h4>✊ A Trailblazer</h4>
+          <ul>
+            <li>One of the first women to have a major career as composer AND performer</li>
+            <li>Fans across America formed "Chaminade Clubs" in her honour!</li>
+            <li>First woman to receive France's Legion d'Honneur for music</li>
+            <li>Composed over 400 pieces in her lifetime</li>
+            <li>Lived to 86, surviving two World Wars</li>
+            <li>Male critics said women couldn't compose — she proved them wrong</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- MEDTNER -->
+    <div class="composer-card" onclick="this.classList.toggle('flipped')">
+      <div class="card-inner">
+        <div class="card-front">
+          <div class="card-photo-area">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Metner_N.K._Postcard-1910.jpg"
+                 alt="Photo of Nikolai Medtner, 1910"
+                 onerror="this.parentElement.innerHTML='<div class=card-photo-fallback style=background:linear-gradient(135deg,%23ffe0b2,%23fff3e0)>🐻</div>'">
+            <div class="card-overlay"></div>
+          </div>
+          <div class="card-front-content">
+            <h3>Nikolai Medtner</h3>
+            <div class="composer-dates">1880 – 1951 · Russia / England</div>
+            <div class="composer-tagline">A Russian master devoted to tradition — best friends with Rachmaninoff</div>
+            <div class="flip-hint">👆 Tap to see fun facts!</div>
+          </div>
+        </div>
+        <div class="card-back medtner">
+          <h4>🌍 Medtner's Journey</h4>
+          <ul>
+            <li>Rachmaninoff called him the greatest living composer</li>
+            <li>Fled Russia after the Communist Revolution in 1917</li>
+            <li>His music was so hard, he was often the only one who could play it!</li>
+            <li>An Indian Maharaja funded recordings of ALL his works</li>
+            <li>Invented a form called "Skazka" — Russian for "fairy tale"</li>
+            <li>Marc-André Hamelin is one of the world's top Medtner interpreters</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- GERSHWIN -->
+    <div class="composer-card" onclick="this.classList.toggle('flipped')">
+      <div class="card-inner">
+        <div class="card-front">
+          <div class="card-photo-area">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/LCCN2005678096.jpg"
+                 alt="Photo of George Gershwin"
+                 onerror="this.parentElement.innerHTML='<div class=card-photo-fallback style=background:linear-gradient(135deg,%23e1bee7,%23f3e5f5)>🎷</div>'">
+            <div class="card-overlay"></div>
+          </div>
+          <div class="card-front-content">
+            <h3>George Gershwin</h3>
+            <div class="composer-dates">1898 – 1937 · USA</div>
+            <div class="composer-tagline">The Brooklyn kid who fused jazz, blues, and classical music into something entirely new</div>
+            <div class="flip-hint">👆 Tap to see fun facts!</div>
+          </div>
+        </div>
+        <div class="card-back gershwin">
+          <h4>🗽 America's Composer</h4>
+          <ul>
+            <li>Grew up on the streets of Brooklyn — largely self-taught</li>
+            <li>Wrote "Rhapsody in Blue" at just 25, becoming an overnight sensation</li>
+            <li>Porgy and Bess (1935) is one of the greatest American operas ever written</li>
+            <li>Died suddenly from a brain tumor at just 38</li>
+            <li>"Summertime" from Porgy has been covered over 33,000 times!</li>
+            <li>Percy Grainger's arrangement turns the whole opera into a 2-piano adventure</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <p style="text-align:center;font-size:0.72rem;color:#bbb;margin-top:1.5rem;">
+    Composer images from Wikimedia Commons (public domain). Portraits: Mozart (1789–90), Chopin by Eugène Delacroix (1838), Chaminade (c.1880s), Medtner (1910), Gershwin (Library of Congress).
+  </p>
+</div>
+</div>
+
+<!-- ═══ DEEP DIVES ═══ -->
+<div id="deep-dives" class="alt-bg">
+<div class="deep-inner">
+  <h2 class="section-title">🔍 Deep Dives</h2>
+  <p class="section-sub">Pick a composer and explore their piece in depth — history, music, and big ideas</p>
+
+  <div class="deep-dive-tabs">
+    <button class="tab-btn mozart active" onclick="showTab('mozart')">🎩 Mozart</button>
+    <button class="tab-btn chopin" onclick="showTab('chopin')">🌹 Chopin</button>
+    <button class="tab-btn chaminade" onclick="showTab('chaminade')">💫 Chaminade</button>
+    <button class="tab-btn medtner" onclick="showTab('medtner')">🐻 Medtner</button>
+    <button class="tab-btn gershwin" onclick="showTab('gershwin')">🎷 Gershwin</button>
+  </div>
+
+  <div class="deep-content active" id="tab-mozart">
+    <div class="deep-panel mozart">
+      <div class="deep-header">
+        <span class="deep-emoji">🎩</span>
+        <div>
+          <h3>Mozart: Sonata K.448 &amp; Concerto K.365</h3>
+          <div class="sub">The two-piano masterworks of a genius — written at ages 25 and 23</div>
+        </div>
+      </div>
+      <div class="deep-body">
+        <div class="info-block">
+          <h5>🎵 About the Sonata (K.448)</h5>
+          <p>Mozart wrote this sparkling sonata in 1781 for himself and his student Josepha Auernhammer. The two pianos chase and mirror each other like two friends in a playful conversation. Written the same year Mozart moved to Vienna to seek fame and fortune at age 25, this piece radiates pure joy and confidence.</p>
+        </div>
+        <div class="info-block">
+          <h5>🎵 About the Concerto (K.365)</h5>
+          <p>Written two years earlier for Mozart and his sister Nannerl — this is the only piano concerto ever written for two pianists! Mozart and Nannerl had grown up performing together as a duo-prodigy act across Europe. This was their ultimate show-off piece, designed to dazzle audiences with perfect sibling synchrony.</p>
+        </div>
+        <div class="info-block">
+          <h5>🧠 The "Mozart Effect"</h5>
+          <p>In 1993, scientists found college students showed brief improvements in spatial reasoning after listening to K.448. Newspapers went wild — parents started playing Mozart to their babies! While the effect is modest, this Sonata became the most studied piece of music in history. Whether or not it makes you smarter, it definitely sounds amazing.</p>
+        </div>
+        <div class="info-block">
+          <h5>⚡ Big Idea: Child Prodigies</h5>
+          <p>Mozart's father Leopold recognised his son's gift early and devoted his life to promoting him. By age 6, Mozart had performed for Empress Maria Theresa in Vienna and King Louis XV in France. But was this childhood good for Mozart? Some historians think the constant pressure and travel wore him out — he died exhausted at 35.</p>
+        </div>
+      </div>
+      <div class="fact-highlight">
+        <span class="label">🔬 Tonight's Connection</span>
+        The two Hamelins take the very same "two pianists in conversation" format Mozart invented and bring it to a modern audience. Watch how they look at each other — musical communication is a real, physical, visible thing!
+      </div>
+    </div>
+  </div>
+
+  <div class="deep-content" id="tab-chopin">
+    <div class="deep-panel chopin">
+      <div class="deep-header">
+        <span class="deep-emoji">🌹</span>
+        <div>
+          <h3>Chopin: Rondo in C Major, Op. 73</h3>
+          <div class="sub">A piece Chopin never lived to hear performed — published 6 years after his death</div>
+        </div>
+      </div>
+      <div class="deep-body">
+        <div class="info-block">
+          <h5>🎵 What is a Rondo?</h5>
+          <p>A Rondo is a piece where a main theme keeps coming back like a refrain in a song — ABACADA... The two pianos take turns presenting and answering the theme. Chopin probably wrote this early in his career for private salon concerts with a friend. It's lively and fun — very different from the melancholy Chopin most people know.</p>
+        </div>
+        <div class="info-block">
+          <h5>🏆 The Chopin Competition</h5>
+          <p>The International Chopin Piano Competition is held every 5 years in Warsaw — considered the world's most prestigious piano competition. In 2015, Charles Richard-Hamelin (performing tonight!) won the Silver Medal there. So when he plays Chopin tonight, it is deeply, personally significant.</p>
+        </div>
+        <div class="info-block">
+          <h5>🇵🇱 Poland's National Hero</h5>
+          <p>Chopin left Poland at 20 and never returned, but was fiercely patriotic. His Mazurkas and Polonaises are symbols of Polish identity. During World War II, the Nazis banned Chopin's music in occupied Poland because it was a rallying symbol of national resistance and spirit.</p>
+        </div>
+        <div class="info-block">
+          <h5>💊 Living with Illness</h5>
+          <p>Chopin had tuberculosis — a serious lung disease — most of his life. It made him frail and affected his ability to perform and compose. Despite this, he created music of extraordinary depth and beauty. His illness is part of why his music is so emotional — he lived with the constant knowledge that he might not have long.</p>
+        </div>
+      </div>
+      <div class="fact-highlight">
+        <span class="label">🌟 Tonight's Connection</span>
+        Charles Richard-Hamelin is Chopin's greatest Canadian champion. Tonight you're watching a Chopin Competition Silver Medalist perform Chopin's own music — it doesn't get more personal or meaningful than this!
+      </div>
+    </div>
+  </div>
+
+  <div class="deep-content" id="tab-chaminade">
+    <div class="deep-panel chaminade">
+      <div class="deep-header">
+        <span class="deep-emoji">💫</span>
+        <div>
+          <h3>Chaminade: Pas des Cymbales, Op. 36</h3>
+          <div class="sub">A dance piece from a woman who had to fight to be taken seriously</div>
+        </div>
+      </div>
+      <div class="deep-body">
+        <div class="info-block">
+          <h5>🎵 What Does "Pas des Cymbales" Mean?</h5>
+          <p>"Pas des Cymbales" means "Dance of the Cymbals" in French. It's a ballet-style piece — elegant and sparkling, evoking the shimmer and clash of cymbals. Chaminade was famous for writing beautiful, accessible music that people actually enjoyed. This piece is from her collection "Les Sylvains," inspired by woodland spirit dancers.</p>
+        </div>
+        <div class="info-block">
+          <h5>✊ Women in Classical Music</h5>
+          <p>In Chaminade's time, it was extremely unusual for a woman to be taken seriously as a composer. Women were expected to play music at home, not write it for concert halls. Chaminade fought these prejudices her entire life. In 1908 she toured America — where audiences were more open-minded — and was celebrated like a star.</p>
+        </div>
+        <div class="info-block">
+          <h5>📊 The Numbers Today</h5>
+          <p>Even now in 2026, classical music has a gender gap problem. Studies show only about 5–10% of pieces performed by major orchestras are by women composers. Organisations around the world are actively pushing to programme more music by women and underrepresented composers. Chaminade's inclusion tonight is part of that important effort.</p>
+        </div>
+        <div class="info-block">
+          <h5>🎖️ Her Legacy</h5>
+          <p>Chaminade lived to 86, surviving two World Wars, seeing her music go from enormously popular to nearly forgotten — and then rediscovered. Today she's celebrated as a pioneering figure. Her music appearing in a major concert programme like tonight's is a deliberate, meaningful statement about whose music deserves to be heard.</p>
+        </div>
+      </div>
+      <div class="fact-highlight">
+        <span class="label">💡 Think About This</span>
+        How many female composers can you name? Most people can name dozens of male composers but struggle to name women. This isn't because women didn't write great music — it's because their music was often ignored, unpublished, or credited to men. Tonight is a small but important correction to that long history.
+      </div>
+    </div>
+  </div>
+
+  <div class="deep-content" id="tab-medtner">
+    <div class="deep-panel medtner">
+      <div class="deep-header">
+        <span class="deep-emoji">🐻</span>
+        <div>
+          <h3>Medtner: Two Pieces for Two Pianos, Op. 58</h3>
+          <div class="sub">Music for loyal hearts — from a composer who refused to follow fashion</div>
+        </div>
+      </div>
+      <div class="deep-body">
+        <div class="info-block">
+          <h5>🎵 What to Listen For</h5>
+          <p>Medtner's music sounds rich, complex, and deeply romantic. His two-piano pieces are intimate conversations rather than competitions. Listen for the long, singing melodies and how the two pianos seem to be sharing a secret. His music rewards careful listening — there's always something beautiful happening beneath the surface.</p>
+        </div>
+        <div class="info-block">
+          <h5>🤝 Medtner &amp; Rachmaninoff</h5>
+          <p>Sergei Rachmaninoff (one of the most famous pianists and composers ever) and Medtner were close friends who deeply admired each other. When Rachmaninoff became world-famous, Medtner remained a "composer's composer" — loved by musicians but unknown to the public. Rachmaninoff always said Medtner was the greatest living composer.</p>
+        </div>
+        <div class="info-block">
+          <h5>🌍 Revolution and Exile</h5>
+          <p>In 1917, Russia's Communist Revolution transformed the country. The new government wanted artists to write simple, accessible music for the masses — Medtner refused. He composed complex, traditional works and wouldn't compromise. He eventually left Russia permanently, spending his final years in England, homesick and struggling financially.</p>
+        </div>
+        <div class="info-block">
+          <h5>🎵 The "Fairy Tale" Composer</h5>
+          <p>Medtner invented a new piano form called the "Skazka" — Russian for "fairy tale." These short pieces are like musical stories, full of mystery and atmosphere. Marc-André Hamelin has recorded all of Medtner's Skazki and is considered one of the world's leading interpreters. Tonight is special — you're hearing Medtner played by its greatest living champion.</p>
+        </div>
+      </div>
+      <div class="fact-highlight">
+        <span class="label">🎙️ Tonight's Connection</span>
+        Marc-André Hamelin has championed Medtner's music his entire career. He believes strongly in performing works by underappreciated composers — he's helped bring Medtner back to concert stages around the world. Tonight you're witnessing exactly that mission in action!
+      </div>
+    </div>
+  </div>
+
+  <div class="deep-content" id="tab-gershwin">
+    <div class="deep-panel gershwin">
+      <div class="deep-header">
+        <span class="deep-emoji">🎷</span>
+        <div>
+          <h3>Gershwin: Fantasy on "Porgy and Bess"</h3>
+          <div class="sub">Jazz, blues, and classical music fused — and a complex, important legacy</div>
+        </div>
+      </div>
+      <div class="deep-body">
+        <div class="info-block">
+          <h5>🎭 What is Porgy and Bess?</h5>
+          <p>"Porgy and Bess" (1935) is an opera Gershwin called a "folk opera" — set in a fictional Black community in South Carolina. It contains some of the most beautiful songs in American music: "Summertime," "I Got Plenty o' Nothin'," "It Ain't Necessarily So." Percy Grainger's fantasy weaves these songs into a brilliant two-piano miniature of the whole opera.</p>
+        </div>
+        <div class="info-block">
+          <h5>🤔 A Complex Legacy</h5>
+          <p>Porgy and Bess has always been controversial. Gershwin (who was white and Jewish) wrote an opera set in a Black community with an all-Black cast. Some Black artists and critics have questioned whether he truly understood Black culture, or whether some stereotypes are harmful. Others celebrate it as putting Black American music at the centre of the classical world. This debate continues today.</p>
+        </div>
+        <div class="info-block">
+          <h5>🎺 Jazz Meets Classical</h5>
+          <p>Gershwin grew up hearing jazz and blues in New York — music created by Black Americans — and incorporated those sounds into formal concert music. His "Rhapsody in Blue" (1924) was the first piece to truly merge the two worlds. Tonight you'll hear that same electric energy in the Porgy and Bess fantasy.</p>
+        </div>
+        <div class="info-block">
+          <h5>🧩 Who Was Percy Grainger?</h5>
+          <p>Percy Grainger (1882–1961) was an eccentric Australian-American composer who collected folk songs across England and Scandinavia. He was also one of the most unconventional people in music history — he ran everywhere instead of walking, rejected formal clothes, and invented his own words for musical terms. He created this two-piano fantasy in 1951.</p>
+        </div>
+      </div>
+      <div class="fact-highlight">
+        <span class="label">🌟 Something to Think About</span>
+        When you listen tonight, you'll be hearing music that started as jazz and blues in Brooklyn, was written into an American opera, arranged for two pianos by an Australian, and is now being performed by two Canadians in Toronto. Music truly travels across time and borders!
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══ FUN FACTS ═══ -->
+<div id="facts">
+<div class="section-wrap">
+  <h2 class="section-title">💡 Amazing Facts!</h2>
+  <p class="section-sub">Things to impress everyone at the concert tonight</p>
+
+  <div class="age-toggle">
+    <span class="toggle-label">🐣 For younger readers</span>
+    <label class="toggle-switch">
+      <input type="checkbox" id="age-toggle-cb" onchange="toggleAge()">
+      <div class="toggle-track"></div>
+      <div class="toggle-thumb"></div>
+    </label>
+    <span class="toggle-label">🧠 More detail mode</span>
+  </div>
+
+  <div class="carousel">
+    <div class="fact-category" id="fact-cat">🎩 MOZART</div>
+    <div class="fact-text" id="fact-text">Loading...</div>
+    <div class="carousel-controls">
+      <button class="carousel-btn" onclick="prevFact()">←</button>
+      <div class="carousel-dots" id="carousel-dots"></div>
+      <button class="carousel-btn" onclick="nextFact()">→</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══ TIMELINE ═══ -->
+<div id="timeline" class="alt-bg">
+<div class="section-wrap">
+  <h2 class="section-title">📅 Musical History Timeline</h2>
+  <p class="section-sub">From Mozart's Vienna to tonight's Koerner Hall — 250 years of music!</p>
+  <div class="timeline">
+    <div class="tl-item mozart">
+      <div class="tl-dot"></div>
+      <div class="tl-year">1756</div>
+      <h4>Mozart is born in Salzburg, Austria</h4>
+      <p>He starts composing at age 5. Within a year, he'll be performing for kings and queens across Europe.</p>
+    </div>
+    <div class="tl-item mozart">
+      <div class="tl-dot"></div>
+      <div class="tl-year">1779–1781</div>
+      <h4>Mozart writes tonight's two-piano works</h4>
+      <p>The Concerto K.365 (for himself and his sister Nannerl) and the Sonata K.448 (for himself and his student) — both radiate joy and playfulness.</p>
+    </div>
+    <div class="tl-item chopin">
+      <div class="tl-dot"></div>
+      <div class="tl-year">1810</div>
+      <h4>Frédéric Chopin is born in Poland</h4>
+      <p>Mozart has been dead for 19 years. Chopin will carry the torch of piano music in his own deeply personal, emotional way.</p>
+    </div>
+    <div class="tl-item chaminade">
+      <div class="tl-dot"></div>
+      <div class="tl-year">1857</div>
+      <h4>Cécile Chaminade is born in Paris</h4>
+      <p>She begins composing as a child and faces constant skepticism from male critics. She will outlast them all, dying in 1944 at age 86.</p>
+    </div>
+    <div class="tl-item medtner">
+      <div class="tl-dot"></div>
+      <div class="tl-year">1880</div>
+      <h4>Nikolai Medtner is born in Moscow</h4>
+      <p>He and Rachmaninoff will become lifelong friends and the last great champions of Romantic piano music.</p>
+    </div>
+    <div class="tl-item gershwin">
+      <div class="tl-dot"></div>
+      <div class="tl-year">1898</div>
+      <h4>George Gershwin is born in Brooklyn</h4>
+      <p>He'll grow up hearing jazz in the streets and bring it into the concert hall — changing classical music forever.</p>
+    </div>
+    <div class="tl-item gershwin">
+      <div class="tl-dot"></div>
+      <div class="tl-year">1935</div>
+      <h4>Gershwin premieres "Porgy and Bess"</h4>
+      <p>His folk opera opens in New York — celebrated and controversial simultaneously. A debate that continues today.</p>
+    </div>
+    <div class="tl-item" style="">
+      <div class="tl-dot" style="background:#777;"></div>
+      <div class="tl-year">1961</div>
+      <h4>Marc-André Hamelin is born in Montréal</h4>
+      <p>The boy who will be called a pianist of "near-superhuman technical prowess" enters the world.</p>
+    </div>
+    <div class="tl-item chopin">
+      <div class="tl-dot"></div>
+      <div class="tl-year">1989</div>
+      <h4>Charles Richard-Hamelin is born in Québec</h4>
+      <p>The future Chopin Competition Silver Medalist is born in Joliette, Canada.</p>
+    </div>
+    <div class="tl-item chopin">
+      <div class="tl-dot"></div>
+      <div class="tl-year">2015</div>
+      <h4>Charles wins Silver at the Chopin Competition</h4>
+      <p>In Warsaw — the city Chopin loved and left — a young Canadian wins one of classical music's most coveted prizes playing Chopin's own music.</p>
+    </div>
+    <div class="tl-item tonight">
+      <div class="tl-dot"></div>
+      <div class="tl-year">🎉 TONIGHT — March 29, 2026</div>
+      <h4>Two Hamelins share the stage at Koerner Hall</h4>
+      <p>Mozart, Chopin, Chaminade, Medtner, and Gershwin all come alive on two pianos. <strong>You are here! 🎉</strong></p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══ LISTEN ═══ -->
+<div id="listen">
+<div class="section-wrap">
+  <h2 class="section-title">🎧 Listen Before You Go</h2>
+  <p class="section-sub">Search these on YouTube to get your ears ready for tonight!</p>
+  <div class="listen-grid">
+    <div class="listen-card mozart">
+      <h4>Mozart: Sonata K.448</h4>
+      <div class="composer-sm">Wolfgang Amadeus Mozart · 1781</div>
+      <p>Sunny and joyful — two pianos chasing each other in playful conversation. The first movement starts with a bright energetic theme in D Major!</p>
+      <a class="yt-link" href="https://www.youtube.com/results?search_query=Mozart+Sonata+K448+two+pianos" target="_blank">▶ Search on YouTube</a>
+    </div>
+    <div class="listen-card chopin">
+      <h4>Chopin: Rondo Op. 73</h4>
+      <div class="composer-sm">Frédéric Chopin · Published 1855</div>
+      <p>Lively and spirited — this is Chopin at his most fun! Listen for the main theme that keeps coming back, like a catchy refrain.</p>
+      <a class="yt-link" href="https://www.youtube.com/results?search_query=Chopin+Rondo+C+major+Op+73+two+pianos" target="_blank">▶ Search on YouTube</a>
+    </div>
+    <div class="listen-card chaminade">
+      <h4>Chaminade: Pas des Cymbales</h4>
+      <div class="composer-sm">Cécile Chaminade · 1889</div>
+      <p>Elegant and sparkling — imagine ballet dancers in a sunlit forest! Listen for the shimmering, cymbal-like effect in the piano writing.</p>
+      <a class="yt-link" href="https://www.youtube.com/results?search_query=Chaminade+Pas+des+Cymbales+piano" target="_blank">▶ Search on YouTube</a>
+    </div>
+    <div class="listen-card medtner">
+      <h4>Medtner: Piano Skazki (Fairy Tales)</h4>
+      <div class="composer-sm">Nikolai Medtner · played by Hamelin</div>
+      <p>Rich, complex, deeply romantic. Search for Hamelin playing Medtner specifically — it's a magical pairing between the right interpreter and the right music.</p>
+      <a class="yt-link" href="https://www.youtube.com/results?search_query=Hamelin+Medtner+skazki+fairy+tales" target="_blank">▶ Search on YouTube</a>
+    </div>
+    <div class="listen-card gershwin">
+      <h4>Gershwin: Summertime</h4>
+      <div class="composer-sm">From Porgy and Bess · 1935</div>
+      <p>"Summertime, and the living is easy..." This famous lullaby is the heart of what you'll hear tonight. One of the most recorded songs in history!</p>
+      <a class="yt-link" href="https://www.youtube.com/results?search_query=Gershwin+Summertime+Porgy+Bess" target="_blank">▶ Search on YouTube</a>
+    </div>
+    <div class="listen-card gershwin">
+      <h4>Gershwin: Rhapsody in Blue</h4>
+      <div class="composer-sm">George Gershwin · 1924</div>
+      <p>Not on tonight's programme but essential Gershwin — this is where jazz met classical music in a concert hall for the first time. That clarinet opening is one of the most iconic sounds in American music.</p>
+      <a class="yt-link" href="https://www.youtube.com/results?search_query=Gershwin+Rhapsody+in+Blue" target="_blank">▶ Search on YouTube</a>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══ QUIZ ═══ -->
+<div id="quiz" class="alt-bg">
+<div class="section-wrap">
+  <h2 class="section-title">🧠 Concert Quiz!</h2>
+  <p class="section-sub">Test everything you've learned — can you get a perfect score?</p>
+  <div class="quiz-container">
+    <div class="quiz-progress">
+      <div class="quiz-bar" id="quiz-bar" style="width:0%"></div>
+    </div>
+    <div class="question-card" id="quiz-card"></div>
+  </div>
+</div>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <p class="big">🎹 Have an amazing time tonight! 🎹</p>
+  <p>Marc-André Hamelin &amp; Charles Richard-Hamelin<br>
+  Koerner Hall · The Royal Conservatory · Sunday, March 29, 2026 · 3:00 PM · Toronto, Canada</p>
+  <br>
+  <p style="font-size:0.8rem;opacity:0.5;">Mozart · Chopin · Chaminade · Medtner · Gershwin<br>
+  Composer images: Wikimedia Commons (public domain). Made with ❤️ for two curious music lovers.</p>
+</footer>
+
+<script>
+function scrollTo(id) {
+  document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+}
+
+function showTab(name) {
+  document.querySelectorAll('.deep-content').forEach(d => d.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  var tab = document.getElementById('tab-' + name);
+  if (tab) tab.classList.add('active');
+  var btn = document.querySelector('.tab-btn.' + name);
+  if (btn) btn.classList.add('active');
+}
+
+function openDeepDive(name) {
+  document.getElementById('deep-dives').scrollIntoView({ behavior: 'smooth' });
+  setTimeout(function() { showTab(name); }, 500);
+}
+
+function toggleAge() {
+  document.body.classList.toggle('teen-mode', document.getElementById('age-toggle-cb').checked);
+  updateFact();
+}
+
+var facts = [
+  { cat: '🎩 MOZART', young: "Mozart started composing music when he was only FIVE years old — younger than most kids learn to read!", old: "Mozart composed his first minuet at age 5. By 8 he had written his first symphony. He completed over 800 works before dying at 35 — an almost impossibly prolific output rate." },
+  { cat: '🎩 MOZART', young: "Mozart had a pet bird — a starling! — that could whistle one of his own tunes. He was so sad when it died he held a special funeral with a poem he wrote!", old: "Mozart purchased a starling in 1784 that could whistle a theme from his Piano Concerto No. 17 (with one note slightly off). When it died in 1787, he held a ceremony and composed a humorous poem in its honour." },
+  { cat: '🌹 CHOPIN', young: "Chopin's heart is buried in a different country from the rest of him! His body is in Paris, but his heart is in Poland — his sister smuggled it out in a special jar!", old: "After Chopin died in Paris in 1849, per his wishes his sister smuggled his heart to Warsaw in a crystal urn. It now rests in the Church of the Holy Cross. The heart was hidden during WWII to prevent seizure by Nazi forces." },
+  { cat: '🌹 CHOPIN', young: "Charles Richard-Hamelin — one of tonight's performers — won a silver medal at the world's most important piano competition, which is ALL about Chopin's music!", old: "The International Chopin Piano Competition is held every 5 years in Warsaw. In 2015, Charles Richard-Hamelin took silver; Seong-Jin Cho won gold. All contestants must perform entirely from memory — no sheet music allowed. It is among the most demanding competitions in existence." },
+  { cat: '💫 CHAMINADE', young: "Cécile Chaminade was one of the first women ever to be famous for writing classical music. People in America loved her so much they started fan clubs — just for her!", old: "Chaminade Clubs sprang up across the United States in the 1890s and 1900s. When she toured America in 1908, she sold out venues and received recognition from President Theodore Roosevelt. European critics were often condescending about her gender, which American audiences largely ignored." },
+  { cat: '🐻 MEDTNER', young: "A real prince from India loved Medtner's music SO much that he paid for all of Medtner's music to be recorded! That's like buying someone a complete album collection as a gift.", old: "Maharaja Yeshwant Rao Holkar II of Indore became Medtner's patron in the late 1940s and funded the complete recording of his piano works for HMV. Without this extraordinary patronage, Medtner's recordings might have been almost entirely lost to history." },
+  { cat: '🎷 GERSHWIN', young: "George Gershwin could hear music in everyday sounds — traffic, voices, train whistles. He said New York City itself sounded like music to him!", old: "Gershwin spoke of steel girders, elevated trains, subways, and taxi horns as his musical influences. He reportedly composed 'Rhapsody in Blue' in just three weeks after reading his own name in a newspaper announcing the premiere — of a piece he hadn't yet written." },
+  { cat: '🎷 GERSHWIN', young: "Porgy and Bess has a song called 'Summertime' that has been covered more than 33,000 times — one of the most recorded songs in ALL of music history!", old: "'Summertime' holds or shares the Guinness World Record as one of the most covered songs in recorded music history. From Billie Holiday to Janis Joplin to Beyoncé, its lullaby melody has transcended every genre since its premiere in 1935." },
+  { cat: '🎹 TONIGHT', young: "The two Hamelins have the same last name but are NOT related — it's just a coincidence! They're like musical twins who aren't actually twins.", old: "Marc-André Hamelin (b. 1961, Montréal) and Charles Richard-Hamelin (b. 1989, Joliette) share the surname entirely by coincidence. The programme title also nods to the Pied Piper of Hamelin, who famously led children with his music — charming!" },
+  { cat: '🏛️ KOERNER HALL', young: "Koerner Hall — where you're going tonight — is one of the best concert halls in all of Canada! Every single seat was designed so the music sounds equally amazing.", old: "Koerner Hall (opened 2009) features a variable acoustics system with 33 motorized banners adjustable for different music types. It seats 1,135 and is consistently ranked among North America's finest recital venues — engineered so every seat sounds equally superb." }
+];
+
+var currentFact = 0;
+
+function buildDots() {
+  var container = document.getElementById('carousel-dots');
+  if (!container) return;
+  container.innerHTML = '';
+  for (var i = 0; i < facts.length; i++) {
+    var dot = document.createElement('div');
+    dot.className = 'dot' + (i === currentFact ? ' active' : '');
+    (function(idx) { dot.onclick = function() { currentFact = idx; updateFact(); }; })(i);
+    container.appendChild(dot);
+  }
+}
+
+function updateFact() {
+  var f = facts[currentFact];
+  var isOld = document.getElementById('age-toggle-cb') && document.getElementById('age-toggle-cb').checked;
+  var textEl = document.getElementById('fact-text');
+  if (!textEl) return;
+  textEl.style.opacity = '0';
+  setTimeout(function() {
+    document.getElementById('fact-cat').textContent = f.cat;
+    textEl.textContent = isOld ? f.old : f.young;
+    textEl.style.opacity = '1';
+    buildDots();
+  }, 200);
+}
+
+function nextFact() { currentFact = (currentFact + 1) % facts.length; updateFact(); }
+function prevFact() { currentFact = (currentFact - 1 + facts.length) % facts.length; updateFact(); }
+
+setInterval(nextFact, 8000);
+
+var questions = [
+  { q: "How old was Mozart when he started composing music?", answers: ["5 years old","10 years old","15 years old","3 years old"], correct: 0, explain: "🎩 Correct! Mozart wrote his first minuet at just 5 years old — before most kids can even read properly!" },
+  { q: "Why is the Chopin Rondo being performed tonight special?", answers: ["It was published 6 years after Chopin died","Chopin wrote it in one day","It has never been performed before","It was written for the Hamelin family"], correct: 0, explain: "🌹 Exactly! Chopin's Rondo Op. 73 was published posthumously in 1855 — six years after he died at only 39." },
+  { q: "What prize did Charles Richard-Hamelin win at the 2015 Chopin Competition?", answers: ["Silver Medal","Gold Medal","Bronze Medal","Best New Artist"], correct: 0, explain: "🏆 Silver Medal! He performed brilliantly in Warsaw and won one of music's most prestigious awards." },
+  { q: "Are the two Hamelins performing tonight related?", answers: ["No — they share a surname by coincidence","Yes — they are brothers","Yes — they are cousins","Yes — father and son"], correct: 0, explain: "🎹 Correct! Marc-André and Charles Richard-Hamelin are not related at all — it's a wonderful coincidence!" },
+  { q: "Cécile Chaminade was significant because she was...", answers: ["One of the first prominent female composers","The first person to play two pianos at once","The teacher of both Hamelins","The composer of Porgy and Bess"], correct: 0, explain: "💫 Yes! Chaminade broke barriers at a time when women were rarely taken seriously as composers — a true pioneer." },
+  { q: "Who was Nikolai Medtner's most famous best friend?", answers: ["Sergei Rachmaninoff","Frédéric Chopin","Ludwig van Beethoven","George Gershwin"], correct: 0, explain: "🐻 Rachmaninoff! The two were lifelong friends who championed each other's music. Rachmaninoff always called Medtner the greatest living composer." },
+  { q: "Gershwin's 'Porgy and Bess' is known as a...", answers: ["Folk opera","Symphony","Ballet","String quartet"], correct: 0, explain: "🎷 Gershwin himself called it a 'folk opera' — blending jazz, blues, and classical forms into a brand-new kind of American music." },
+  { q: "Who arranged Gershwin's music into tonight's two-piano fantasy?", answers: ["Percy Grainger","Marc-André Hamelin","Cécile Chaminade","Charles Richard-Hamelin"], correct: 0, explain: "🧩 Percy Grainger! The eccentric Australian composer arranged the Porgy and Bess fantasy in 1951 — a brilliant transformation of an entire opera." },
+  { q: "The 'Mozart Effect' refers to what?", answers: ["The idea that K.448 might improve spatial reasoning","Mozart being a child prodigy","The way his music echoes in concert halls","Two pianists playing in perfect sync"], correct: 0, explain: "🧠 A 1993 study suggested students showed brief improvements in spatial reasoning after listening to K.448 — launching a global craze of playing Mozart to babies!" },
+  { q: "How many works did Mozart compose in his 35-year lifetime?", answers: ["Over 800","About 50","Around 200","More than 2,000"], correct: 0, explain: "🎩 Over 800 works — symphonies, operas, concertos, chamber music — an extraordinary output for anyone, especially someone who died at 35!" }
+];
+
+var currentQ = 0, score = 0, answered = false;
+
+function renderQuestion() {
+  answered = false;
+  var q = questions[currentQ];
+  document.getElementById('quiz-bar').style.width = ((currentQ / questions.length) * 100) + '%';
+  var shuffled = [0,1,2,3].sort(function() { return Math.random() - 0.5; });
+  var correctPos = shuffled.indexOf(0);
+  var html = '<div class="question-num">Question ' + (currentQ + 1) + ' of ' + questions.length + '</div>';
+  html += '<div class="question-text">' + q.q + '</div>';
+  html += '<div class="answers">';
+  for (var i = 0; i < shuffled.length; i++) {
+    html += '<button class="answer-btn" onclick="checkAnswer(this,' + i + ',' + correctPos + ')">' + q.answers[shuffled[i]] + '</button>';
+  }
+  html += '</div>';
+  html += '<div class="quiz-feedback" id="quiz-feedback"></div>';
+  html += '<button class="next-btn" id="next-btn" onclick="nextQuestion()" style="display:none;">' + (currentQ < questions.length - 1 ? 'Next Question →' : 'See My Score! 🎉') + '</button>';
+  document.getElementById('quiz-card').innerHTML = html;
+}
+
+function checkAnswer(btn, selected, correct) {
+  if (answered) return;
+  answered = true;
+  var q = questions[currentQ];
+  var btns = document.querySelectorAll('.answer-btn');
+  for (var i = 0; i < btns.length; i++) btns[i].disabled = true;
+  if (selected === correct) {
+    btn.classList.add('correct');
+    score++;
+    document.getElementById('quiz-feedback').innerHTML = '✅ ' + q.explain;
+    document.getElementById('quiz-feedback').className = 'quiz-feedback correct-msg';
+  } else {
+    btn.classList.add('wrong');
+    btns[correct].classList.add('correct');
+    document.getElementById('quiz-feedback').innerHTML = '❌ Not quite! ' + q.explain;
+    document.getElementById('quiz-feedback').className = 'quiz-feedback wrong-msg';
+  }
+  document.getElementById('next-btn').style.display = 'inline-block';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= questions.length) showScore();
+  else renderQuestion();
+}
+
+function showScore() {
+  document.getElementById('quiz-bar').style.width = '100%';
+  var pct = Math.round((score / questions.length) * 100);
+  var emoji, msg;
+  if (pct === 100) { emoji = '🏆'; msg = 'PERFECT SCORE! You\'re a true concert expert — you\'ll know exactly what\'s happening on stage tonight. Incredible!'; }
+  else if (pct >= 80) { emoji = '🌟'; msg = 'Brilliant! You clearly paid close attention. You\'ll be the most knowledgeable person at the concert tonight!'; }
+  else if (pct >= 60) { emoji = '🎹'; msg = 'Great work! Go back and explore the Deep Dives sections for the questions you missed — then try again!'; }
+  else { emoji = '🎵'; msg = 'Good try! Music is all about learning. Explore the Fun Facts and Deep Dives above, then come back and try again!'; }
+  document.getElementById('quiz-card').innerHTML = '<div class="score-display"><span class="score-emoji">' + emoji + '</span><div class="score-number">' + score + ' / ' + questions.length + '</div><div style="color:#888;font-size:1.1rem;margin-top:0.3rem;">' + pct + '%</div><p class="score-msg">' + msg + '</p><button class="restart-btn" onclick="restartQuiz()">Try Again! 🔄</button></div>';
+}
+
+function restartQuiz() { currentQ = 0; score = 0; renderQuestion(); }
+
+updateFact();
+renderQuestion();
+</script>
+</body>
+</html>
